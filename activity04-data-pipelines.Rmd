@@ -1,6 +1,6 @@
 ---
 title: "Activity 4"
-author: "Name"
+author: "Elayna"
 output: github_document
 ---
 
@@ -33,7 +33,7 @@ Knit your report with the `message = FALSE` R code chunk option and pay attentio
 Now, switch this option to `message = TRUE` and knit your report again.
 Discuss what is different when the `message` option is turned on (`TRUE`) and turned off (`FALSE`) for the previous code chunk.
 
-**Response**:
+**Response**: It showed the attaching packages and conflicts from the output
 
 
 Turn the `message` option off and continue in this activity.
@@ -77,7 +77,7 @@ You can view the entire dataset by clicking on the name of the data frame in the
 
 Explore and describe what the `message` option does in `load_data` code chunk.
 
-**Response**:
+**Response**: Shows the same message as the conosle which isn't really important right now.
 
 
 Turn the `message` option off and continue in this activity.
@@ -121,8 +121,8 @@ Below is a blank R code chunk.
 Name this code chunk `college_grads_top`; you do not need to suppress messages.
 In this code chunk, type `college_recent_grads` to view the top few (first 10) entries of the dataset.
 
-```{r}
-
+```{r college_grads_top, message=TRUE}
+college_recent_grads
 ```
 
 
@@ -176,7 +176,7 @@ Describe how you would go about answering this question using a different softwa
 You do not need to code anything.
 As you write this process, think of it as a series of steps and it might be helpful to start at the goal and work backwards.
 
-**Response**:
+**Response**: I would order the unemployment rate by highest using desc() and also gorup it by major
 
 
 #### Using `{dplyr}`
@@ -185,7 +185,9 @@ In the R code chunk below, name it `rearrange_college`.
 
 Take the `college_recent_grads` dataset, *then* `arrange` the dataset by `unemployment_rate`.
 
-```{r}
+```{r rearrange_college}
+college_recent_grads %>%
+  arrange(major, desc(unemployment_rate))
 
 ```
 
@@ -198,11 +200,14 @@ Also, notice that by default when you *arrange* by a variable, it defaults to *a
 Use the pipeline that you made in the `rearrange_college` code chunk as the start to this solution, **then** `select` only the variables `rank`, `major`, and `unemployment_rate`.
 Name this code chunk `lowest_unemploy`.
 
-```{r}
+```{r lowest_unemploy}
+college_recent_grads %>%
+  arrange(desc(unemployment_rate), major) %>% 
+  select(rank,major,unemployment_rate)
 
 ```
 
-**Response**:
+**Response**: Nuclear engineering had the highest unemployment rate
 
 
 ![](README-img/noun_pause.png) **Planned Pause Point**: If you have any questions, contact your instructor. Otherwise feel free to continue on.
@@ -212,13 +217,15 @@ Name this code chunk `lowest_unemploy`.
 Using the `college_recent_grads` dataset and functions from `{dplyr}`, `arrange` the dataset by `sharewomen`, and `select` only `rank`, `major`, and `sharewomen`. 
 Name your code chunk `highest_prop_women`.
 
-```{r}
-
+```{r highest_prop_women}
+college_recent_grads %>%
+  arrange(desc(sharewomen), major) %>% 
+  select(rank,major,sharewomen)
 ```
 
 Discuss your output as it relates to the research question.
 
-**Response**:
+**Response**: Early childhood education was listed as the highest women major
 
 
 ![](README-img/noun_pause.png) **Planned Pause Point**: If you have any questions, contact your instructor. Otherwise feel free to continue on.
@@ -243,13 +250,17 @@ Using the `stem_categories` vector and knowledge that the median salary for all 
 Only display the variables `major`, `p25th`, `median`, and `p75th`
 Name the code chunk `stem_low_salaries`.
 
-```{r}
+```{r stem_low_salaries}
+college_recent_grads %>%
+  filter(major_category== stem_categories, median<=36000) %>% 
+  select(major, p25th, median,p75th)
+  
 
 ```
 
 Discuss your output as it relates to the research question.
 
-**Response**:
+**Response**: The output produced five majors from the stem major category that make a median salary under 36,000
 
 
 ![](README-img/noun_pause.png) **(Final) Planned Pause Point**: If you have any questions, contact your instructor. Otherwise feel free to continue on.
